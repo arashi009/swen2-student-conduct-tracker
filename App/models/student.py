@@ -20,13 +20,3 @@ class Student(db.Model):
 
     def __repr__(self):
         return f"========Student========\nID:{self.student_id}\nName: {self.firstname} {self.lastname}\nReviews:{self.num_reviews}"
-
-
-def get_student_by_full_name(firstname: str, lastname: str):
-    existing_student = Student.query.filter_by(firstname=firstname, lastname=lastname).first()
-    return None if existing_student is None else existing_student
-
-
-def get_student_by_id(id: int):
-    existing_student = Student.query.filter_by(student_id=id).first()
-    return None if existing_student is None else existing_student

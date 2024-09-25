@@ -22,3 +22,4 @@ class Review(db.Model):
         student = Student.query.filter_by(student_id=self.student_id).first()
         student_fullname = f"{student.firstname} {student.lastname}"
         return f"Conduct Review of Student [{self.student_id},{student_fullname}]:\nRating: {self.score}/10\ncomment: {self.comment}\nExperience with Student:{" Positive" if self.experience else " Negative"}\n"
+

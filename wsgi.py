@@ -1,11 +1,10 @@
-import click, sys
-from flask import Flask
-from flask.cli import with_appcontext, AppGroup
-from App.database import db, get_migrate
+import click
+from flask.cli import AppGroup
+from App.database import get_migrate
 from App.main import create_app
 from App.controllers import initialize
-from App.models.student import Student, get_student_by_id, get_student_by_full_name
-from App.models.review import Review
+from App.controllers.student import add_student, get_all_students, get_student_by_id, query_student_by_name
+from App.controllers.review import add_review
 
 app = create_app()
 migrate = get_migrate(app)
@@ -27,9 +26,7 @@ reviewer = AppGroup("reviewer", help="reviewer commands for viewing students and
 @click.argument("firstname", type=str)
 @click.argument("lastname", type=str)
 def add(firstname: str, lastname: str) -> None:
-    new_student = Student(firstname, lastname)
-    db.session.add(new_student)
-    db.session.commit()
+    add_student(firstname, lastname)
     print(f"Student {firstname} was added!")
 
 
@@ -37,7 +34,7 @@ def add(firstname: str, lastname: str) -> None:
 @click.argument("firstname")
 @click.argument("lastname")
 def find(firstname, lastname) -> None:
-    students = Student.query.filter_by(firstname=firstname, lastname=lastname).all()
+    students = query_student_by_name(firstname, lastname)
     if students is None:
         print("No students found")
         return
@@ -48,7 +45,7 @@ def find(firstname, lastname) -> None:
 
 @reviewer.command("list_students", help="lists all students in the database")
 def list_students():
-    students = Student.query.all()
+    students = get_all_students()
     if not students:
         print("Currently No Students in the Database")
         return
@@ -69,16 +66,14 @@ def write_review(student_id, score: int, comment) -> None:
         print(f"Student could not be found")
         return
     else:
-        review = Review(student.student_id, score=score, comment=comment)
-        db.session.add(review)
-        db.session.commit()
+        add_review(score, comment, student)
         print(f"review posted!")
 
 
 @reviewer.command("get_reviews", help="lists the reviews for a student listed by ID")
 @click.argument("student_id")
 def review(student_id) -> None:
-    student = Student.query.filter_by(student_id=student_id).first()
+    student = get_student_by_id(student_id)
     if student is None:
         print(f"{student_id} is not a valid student ID")
         return
