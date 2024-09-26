@@ -25,8 +25,9 @@ reviewer = AppGroup("reviewer", help="reviewer commands for viewing students and
 @reviewer.command("add_student", help="adds a new student to the database")
 @click.argument("firstname", type=str)
 @click.argument("lastname", type=str)
-def add(firstname: str, lastname: str) -> None:
-    add_student(firstname, lastname)
+@click.argument("programme", type=str)
+def add(firstname: str, lastname: str, programme: str) -> None:
+    add_student(firstname, lastname, programme)
     print(f"Student {firstname} was added!")
 
 

@@ -12,8 +12,8 @@ def get_student_by_id(id: int):
     return None if existing_student is None else existing_student
 
 
-def add_student(firstname, lastname):
-    new_student = Student(firstname, lastname)
+def add_student(firstname, lastname, programme):
+    new_student = Student(firstname, lastname, programme)
     db.session.add(new_student)
     db.session.commit()
 
