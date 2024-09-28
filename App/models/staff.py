@@ -35,5 +35,7 @@ class Staff(User):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def write_review(self, student, score, comment):
-        add_review(score, comment, student, self)
+    def review_student(self, score: int, comment: str, student_id: int) -> None:
+        add_review(score, comment, student_id, self)
+        self.reviews_written += 1
+        db.session.commit()

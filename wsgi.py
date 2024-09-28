@@ -37,12 +37,20 @@ def add(firstname: str, lastname: str, programme: str) -> None:
 @click.argument("lastname")
 def find(firstname, lastname) -> None:
     students = query_student_by_name(firstname, lastname)
-    if students is None:
+
+    if not students:
         print("No students found")
         return
+
+    table = PrettyTable()
+    table.field_names = ["Student ID", "Name", "Programme", "Number of Reviews"]
+
     for student in students:
-        print(student)
-    print("==========================")
+        table.add_row(
+            [student.student_id, f"{student.firstname} {student.lastname}", student.programme, student.num_reviews]
+        )
+
+    print(table)
 
 
 @reviewer.command("list_students", help="lists all students in the database")
@@ -91,22 +99,26 @@ def write_review(student_id, score: int, comment) -> None:
     score = int(score)
     if score > 10:
         print("Score should be a value from 0 to 10")
+        return
     student = get_student_by_id(student_id)
     if student is None:
         print(f"Student could not be found")
         return
+    username = input("Enter your staff username: ")
+    staff = get_staff_by_username(username)
+    if staff:
+        try:
+            staff.review_student(score, comment, int(student_id))
+            print("Review added successfully")
+        except ValueError as e:
+            print(f"Error: {str(e)}")
     else:
-        username = input("Enter your staff usernam")
-        staff = get_staff_by_username(username)
-        if staff:
-            staff.write_review(score, comment, student, staff)
-        else:
-            print("Invalid staff username")
+        print("Invalid staff username")
 
 
-@reviewer.command("get_reviews", help="lists the reviews for a student listed by ID")
+@reviewer.command("get_student_reviews", help="lists the reviews for a student listed by ID")
 @click.argument("student_id")
-def review(student_id) -> None:
+def get_student_reviews(student_id) -> None:
     student = get_student_by_id(student_id)
     if student is None:
         print(f"{student_id} is not a valid student ID")
@@ -116,6 +128,22 @@ def review(student_id) -> None:
         print(f"Student of ID:{student.student_id} currently has no reviews")
         return
     print(f"===================Reviews for {student.firstname}===================")
+    for review in review:
+        print(review)
+
+
+@reviewer.command("get_staff_reviews", help="lists the reviews written by a staff member by username")
+@click.argument("username")
+def review(username) -> None:
+    staff = get_staff_by_username(username)
+    if staff is None:
+        print(f"{username} is not a valid member of staff")
+        return
+    review = staff.reviews
+    if not review:
+        print(f"Staff Member:{staff.username} currently has no reviews")
+        return
+    print(f"===================Reviews by {staff.firstname} {staff.lastname}===================")
     for review in review:
         print(review)
 
