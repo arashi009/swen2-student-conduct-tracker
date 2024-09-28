@@ -20,9 +20,12 @@ A command-line interface for staff to anonymously provide reports on students, i
 ## Features
 - Add students to the database
 - Find students by name
+- Find staff by name
 - List all students
+- List all staff
 - Add reviews for students
 - Retrieve reviews for a specific student
+- Retrieve reviews written by a specific staff member
 
 ## Dependencies
 - Python 3.x
@@ -81,22 +84,42 @@ flask init
 
 ### Creating a student
 ```bash
-flask reviewer add_student <firstname> <lastname>
+flask reviewer add_student 
 ```
 
 ### Finding student(s) by full name
 ```bash
-flask reviewer find_student <firstname> <lastname>
+flask reviewer find_students
 ```
 
-### List all students
+### Finding staff by full name
+```bash
+flask reviewer find_staff
+```
+
+### Listing all students
 ```bash
 flask reviewer list_students
 ```
 
+### Listing all staff
+```bash
+flask reviewer list_staff
+```
+
 ### Get review(s) for a student by ID
 ```bash
-flask reviewer get_reviews <student_id>
+flask reviewer get_student_reviews
+```
+
+### Get review(s) written by a staff member by username
+```bash
+flask reviewer get_staff_reviews
+```
+
+### Review a student
+```bash
+flask reviewer review_student
 ```
 
 ## Troubleshooting
