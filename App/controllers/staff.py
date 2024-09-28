@@ -18,7 +18,7 @@ def get_staff_by_id(staff_id: int):
 
 
 def get_staff_by_name(firstname, lastname):
-    return Staff.query.filter_by(firstname=firstname, lastname=lastname).first()
+    return Staff.query.filter_by(firstname=firstname, lastname=lastname).all()
 
 
 def get_staff_by_title(title):

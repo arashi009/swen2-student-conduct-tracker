@@ -5,7 +5,7 @@ from App.database import get_migrate
 from App.main import create_app
 from App.controllers import initialize
 from App.controllers.student import create_student, get_all_students, get_student_by_id, query_student_by_name
-from App.controllers.staff import get_all_staff, get_staff_by_username
+from App.controllers.staff import get_all_staff, get_staff_by_name, get_staff_by_username
 
 app = create_app()
 migrate = get_migrate(app)
@@ -24,10 +24,10 @@ reviewer = AppGroup("reviewer", help="reviewer commands for viewing students and
 
 
 @reviewer.command("add_student", help="adds a new student to the database")
-@click.argument("firstname", type=str)
-@click.argument("lastname", type=str)
-@click.argument("programme", type=str)
-def add(firstname: str, lastname: str, programme: str) -> None:
+def add() -> None:
+    firstname = input("Student First Name: ")
+    lastname = input("Student Last Name: ")
+    programme = input("Student Programme: ")
     create_student(firstname, lastname, programme)
     print(f"Student {firstname} was added!")
 
@@ -35,7 +35,7 @@ def add(firstname: str, lastname: str, programme: str) -> None:
 @reviewer.command("find_students", help="lists all students with the specified first and last name")
 @click.argument("firstname")
 @click.argument("lastname")
-def find(firstname, lastname) -> None:
+def find_student(firstname, lastname) -> None:
     students = query_student_by_name(firstname, lastname)
 
     if not students:
@@ -48,6 +48,27 @@ def find(firstname, lastname) -> None:
     for student in students:
         table.add_row(
             [student.student_id, f"{student.firstname} {student.lastname}", student.programme, student.num_reviews]
+        )
+
+    print(table)
+
+
+@reviewer.command("find_staff", help="lists all staff with the specified first and last name")
+@click.argument("firstname")
+@click.argument("lastname")
+def find_staff(firstname, lastname) -> None:
+    staff = get_staff_by_name(firstname, lastname)
+
+    if not staff:
+        print("No staff found")
+        return
+
+    table = PrettyTable()
+    table.field_names = ["ID", "Title", "Name", "Username", "Reviews Written"]
+
+    for member in staff:
+        table.add_row(
+            [member.id, member.title, f"{member.firstname} {member.lastname}", member.username, member.reviews_written]
         )
 
     print(table)
@@ -92,11 +113,10 @@ def list_staff():
 
 
 @reviewer.command("review_student", help="creates a review of a student")
-@click.argument("student_id")
-@click.argument("score")
-@click.argument("comment")
-def write_review(student_id, score: int, comment) -> None:
-    score = int(score)
+def write_review() -> None:
+    student_id = int(input("Enter the ID of the student you would like to review: "))
+    score = int(input("Enter their score out of 10: "))
+    comment = input("Make a comment about the student: ")
     if score > 10:
         print("Score should be a value from 0 to 10")
         return
@@ -133,15 +153,15 @@ def get_student_reviews(student_id) -> None:
 
 
 @reviewer.command("get_staff_reviews", help="lists the reviews written by a staff member by username")
-@click.argument("username")
-def review(username) -> None:
+def review() -> None:
+    username = input("Enter Staff Username: ")
     staff = get_staff_by_username(username)
     if staff is None:
         print(f"{username} is not a valid member of staff")
         return
     review = staff.reviews
     if not review:
-        print(f"Staff Member:{staff.username} currently has no reviews")
+        print(f"Staff Member:{staff.username} has not written any reviews")
         return
     print(f"===================Reviews by {staff.firstname} {staff.lastname}===================")
     for review in review:
@@ -149,3 +169,36 @@ def review(username) -> None:
 
 
 app.cli.add_command(reviewer)
+
+
+# @reviewer.command("add_student", help="adds a new student to the database")
+# @click.argument("firstname", type=str)
+# @click.argument("lastname", type=str)
+# @click.argument("programme", type=str)
+# def add(firstname: str, lastname: str, programme: str) -> None:
+#     create_student(firstname, lastname, programme)
+#     print(f"Student {firstname} was added!")
+
+# @reviewer.command("review_student", help="creates a review of a student")
+# @click.argument("student_id")
+# @click.argument("score")
+# @click.argument("comment")
+# def write_review(student_id, score: int, comment) -> None:
+#     score = int(score)
+#     if score > 10:
+#         print("Score should be a value from 0 to 10")
+#         return
+#     student = get_student_by_id(student_id)
+#     if student is None:
+#         print(f"Student could not be found")
+#         return
+#     username = input("Enter your staff username: ")
+#     staff = get_staff_by_username(username)
+#     if staff:
+#         try:
+#             staff.review_student(score, comment, int(student_id))
+#             print("Review added successfully")
+#         except ValueError as e:
+#             print(f"Error: {str(e)}")
+#     else:
+#         print("Invalid staff username")

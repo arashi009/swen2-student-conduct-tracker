@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from App.models.user import User
 from App.controllers.review import add_review
+from App.models.review import Review
 
 
 class Staff(User):
@@ -36,6 +37,7 @@ class Staff(User):
         return check_password_hash(self.password_hash, password)
 
     def review_student(self, score: int, comment: str, student_id: int) -> None:
-        add_review(score, comment, student_id, self)
+        review = Review(student_id, score, comment, self)
         self.reviews_written += 1
+        db.session.add(review)
         db.session.commit()

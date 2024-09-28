@@ -26,9 +26,13 @@ class Review(db.Model):
     def __repr__(self) -> str:
         student: Student = Student.query.filter_by(student_id=self.student_id).first()
         student_fullname: str = f"{student.firstname} {student.lastname}" if student else "Unknown Student"
-        return (
+
+        review_details = (
             f"Conduct Review of Student [{self.student_id}, {student_fullname}]:\n"
             f"Rating: {self.score}/10\n"
             f"Comment: {self.comment}\n"
             f"Experience with Student: {'Positive' if self.experience else 'Negative'}\n"
+            f"Review Written by: {self.staff.firstname} {self.staff.lastname}"
         )
+
+        return review_details
