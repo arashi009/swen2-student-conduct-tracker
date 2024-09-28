@@ -33,9 +33,11 @@ def add() -> None:
 
 
 @reviewer.command("find_students", help="lists all students with the specified first and last name")
-@click.argument("firstname")
-@click.argument("lastname")
-def find_student(firstname, lastname) -> None:
+def find_student() -> None:
+
+    firstname = input("Student First Name: ")
+    lastname = input("Student Last Name: ")
+
     students = query_student_by_name(firstname, lastname)
 
     if not students:
@@ -54,9 +56,10 @@ def find_student(firstname, lastname) -> None:
 
 
 @reviewer.command("find_staff", help="lists all staff with the specified first and last name")
-@click.argument("firstname")
-@click.argument("lastname")
-def find_staff(firstname, lastname) -> None:
+def find_staff() -> None:
+    firstname = input("Staff Member First Name: ")
+    lastname = input("Staff Member Last Name: ")
+
     staff = get_staff_by_name(firstname, lastname)
 
     if not staff:
@@ -137,8 +140,8 @@ def write_review() -> None:
 
 
 @reviewer.command("get_student_reviews", help="lists the reviews for a student listed by ID")
-@click.argument("student_id")
-def get_student_reviews(student_id) -> None:
+def get_student_reviews() -> None:
+    student_id = int(input("Enter Student ID: "))
     student = get_student_by_id(student_id)
     if student is None:
         print(f"{student_id} is not a valid student ID")

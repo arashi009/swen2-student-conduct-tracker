@@ -28,11 +28,13 @@ class Review(db.Model):
         student_fullname: str = f"{student.firstname} {student.lastname}" if student else "Unknown Student"
 
         review_details = (
+            "============================================================================\n"
             f"Conduct Review of Student [{self.student_id}, {student_fullname}]:\n"
             f"Rating: {self.score}/10\n"
             f"Comment: {self.comment}\n"
             f"Experience with Student: {'Positive' if self.experience else 'Negative'}\n"
-            f"Review Written by: {self.staff.firstname} {self.staff.lastname}"
+            f"Review Written by: {self.staff.firstname} {self.staff.lastname}\n"
+            "============================================================================"
         )
 
         return review_details
