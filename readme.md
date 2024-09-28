@@ -1,72 +1,110 @@
-# Dependencies
-* Python3/pip3
-* Packages listed in requirements.txt
+# Student Conduct Tracker Flask Application
 
-# Installing Dependencies
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+
+A command-line interface for staff to anonymously provide reports on students, including a score out of 10 and detailed comments.
+
+## Table of Contents
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
+- [Database Migrations](#database-migrations)
+- [Initializing the Database](#initializing-the-database)
+- [User Commands](#user-commands)
+- [Troubleshooting](#troubleshooting)
+- [Credits](#credits)
+
+## Features
+- Add students to the database
+- Find students by name
+- List all students
+- Add reviews for students
+- Retrieve reviews for a specific student
+
+## Dependencies
+- Python 3.x
+- pip3
+- Packages listed in `requirements.txt`
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/student-conduct-tracker.git
+   cd student-conduct-tracker
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Running the Project
+
+For development:
 ```bash
-$ pip install -r requirements.txt
+flask run
 ```
 
-# Running the Project
-_For development run the serve command (what you execute):_
+For production (using gunicorn):
 ```bash
-$ flask run
+gunicorn wsgi:app
 ```
 
-_For production using gunicorn (what heroku executes):_
-```bash
-$ gunicorn wsgi:app
-```
+## Database Migrations
 
-# Database Migrations
-If changes to the models are made, the database must be'migrated' so that it can be synced with the new models.
+If you make changes to the models, sync the database using these commands:
 
 ```bash
-$ flask db init
-$ flask db migrate
-$ flask db upgrade
-$ flask db --help
+flask db init
+flask db migrate
+flask db upgrade
 ```
-# A Student Conduct Tracker for Flask Application 
-This flask app provides a command line interface for staff to anonymously provide reports on a particular student, providing the student with a score out of 10 and a provide extra details in the comment.
 
-# Initializing the Database
-When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must also be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+For more options:
+```bash
+flask db --help
+```
+
+## Initializing the Database
+
+When connecting to a fresh database or deploying on Heroku:
 
 ```bash
-$ flask init
+flask init
 ```
 
-# User Commands
-_Creating a student:_
+## User Commands
+
+### Creating a student
 ```bash
-$ flask reviewer add_student <firstname> <lastname>
+flask reviewer add_student <firstname> <lastname>
 ```
 
-_Finding student(s) by full name:_
+### Finding student(s) by full name
 ```bash
-$ flask reviewer find_student <firstname> <lastname>
+flask reviewer find_student <firstname> <lastname>
 ```
 
-_List all students:_
+### List all students
 ```bash
-$ flask reviewer list_students
+flask reviewer list_students
 ```
 
-_Get review(s) for a student by ID:
+### Get review(s) for a student by ID
 ```bash
-$ flask reviewer get_reviews <student_id>
+flask reviewer get_reviews <student_id>
 ```
 
-# Troubleshooting
-Ensure you run `flask init` before running any of the listed commands
+## Troubleshooting
 
-# Credits
- The template for the CLI was provided by Nicholas Mendez and Tristan Leid, the repository for the original template can be found [here](https://github.com/uwidcit/flaskmvc)
+Ensure you run `flask init` before running any of the listed commands.
 
+## Credits
 
+The template for the CLI was provided by Nicholas Mendez and Tristan Leid. The original template repository can be found [here](https://github.com/uwidcit/flaskmvc).
 
-
- ## Todo:
- - [X] polish controllers
- - [X] fix Staff Constructor (does not initialize the super values of Staff) 
+---
