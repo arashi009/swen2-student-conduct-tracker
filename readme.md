@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
-A command-line interface for staff to anonymously provide reports on students, including a score out of 10 and detailed comments.
+A command-line interface for staff to provide reports on students, including a score out of 10 and detailed comments.
 
 ## Table of Contents
 - [Features](#features)
