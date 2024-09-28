@@ -63,3 +63,10 @@ Ensure you run `flask init` before running any of the listed commands
 
 # Credits
  The template for the CLI was provided by Nicholas Mendez and Tristan Leid, the repository for the original template can be found [here](https://github.com/uwidcit/flaskmvc)
+
+
+
+
+ ## Todo:
+ - [X] polish controllers
+ - [X] fix Staff Constructor (does not initialize the super values of Staff) 

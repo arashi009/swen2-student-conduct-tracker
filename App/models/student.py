@@ -4,12 +4,13 @@ from App.database import db
 
 
 class Student(db.Model):
+    __tablename__ = "student"
     student_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     firstname = db.Column(db.String, nullable=False)
     lastname = db.Column(db.String, nullable=False)
     programme: Any = db.Column(db.String, nullable=False)
     num_reviews = db.Column(db.Integer, nullable=False)
-    reviews = db.relationship("Review", backref="student")
+    reviews = db.relationship("Review", back_populates="student")
 
     def __init__(self, firstname, lastname, programme):
         self.firstname = firstname

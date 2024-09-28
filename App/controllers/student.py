@@ -1,5 +1,6 @@
 from App.database import db
 from App.models.student import Student
+from sqlalchemy.exc import SQLAlchemyError
 
 
 def get_student_by_full_name(firstname: str, lastname: str):
@@ -12,10 +13,14 @@ def get_student_by_id(id: int):
     return None if existing_student is None else existing_student
 
 
-def add_student(firstname, lastname, programme):
-    new_student = Student(firstname, lastname, programme)
-    db.session.add(new_student)
-    db.session.commit()
+def create_student(firstname, lastname, programme):
+    try:
+        new_student = Student(firstname, lastname, programme)
+        db.session.add(new_student)
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print("Student could not be added")
 
 
 def query_student_by_name(firstname, lastname):

@@ -1,11 +1,25 @@
-firstname,lastname,num_reviews
-John,Doe,0
-Jane,Smith,1
-Alice,Johnson,0
-Bob,Williams,2
-Charlie,Brown,1
-David,Jones,3
-Eva,Garcia,0
-Fiona,Martinez,2
-George,Davis,1
-Hannah,Miller,0
+firstname,lastname,programme
+Brandon,Chandoo,"Computer Science"
+Mark,Katwaroo,"Computer Science"
+Dmitri,Lezama,"Computer Science"
+Felicia,Chan,"Computer Science"
+Rajiv,Ramcharran,"Computer Science"
+Brandon,Ramcharitar,"Computer Science"
+Shivan,Singh,"Computer Science"
+Kylan,Baksh,"Computer Science"
+Paul,Taylor,"Computer Science"
+Caleb,Ramdath,"Information Technology"
+Sean,Maharaj,"Information Technology"
+Joshua,Weekes,"Computer Science"
+Jared,Jaglal,"Information Technology"
+Mia,Gayapersad,"Computer Science"
+Jalene,Armstrong,"Computer Science"
+Phineas,Munroe,"Computer Science"
+Sameer,Ali,"Computer Science"
+Katelyn,Ramphal,"Computer Science"
+Lorenzo,Gould-Davis,"Computer Science"
+Aidan,Nagaur,"Information Technology"
+Kadie,Bisnath,"Computer Science"
+Pranav,Soondar,"Computer Science"
+Zuhrah,Mohammed,"Computer Science"
+Aarti,Sirju,"Information Technology"
