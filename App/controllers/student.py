@@ -1,3 +1,4 @@
+from prettytable import PrettyTable
 from App.database import db
 from App.models.student import Student
 from sqlalchemy.exc import SQLAlchemyError
@@ -31,3 +32,15 @@ def query_student_by_name(firstname, lastname):
 def get_all_students():
     students = Student.query.all()
     return students
+
+
+def create_student_table(students):
+    table = PrettyTable()
+    table.field_names = ["Student ID", "Name", "Programme", "Number of Reviews"]
+
+    for student in students:
+        table.add_row(
+            [student.student_id, f"{student.firstname} {student.lastname}", student.programme, student.num_reviews]
+        )
+
+    print(table)

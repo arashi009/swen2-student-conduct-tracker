@@ -1,6 +1,5 @@
 from App.database import db
 from App.models.student import Student
-from App.models import student
 
 
 class Review(db.Model):

@@ -1,8 +1,8 @@
+from prettytable import PrettyTable
 from sqlalchemy import Nullable
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from App.models.user import User
-from App.controllers.review import add_review
 from App.models.review import Review
 
 
@@ -41,3 +41,14 @@ class Staff(User):
         self.reviews_written += 1
         db.session.add(review)
         db.session.commit()
+
+
+def create_staff_table(staff):
+    table = PrettyTable()
+    table.field_names = ["ID", "Title", "Name", "Username", "Reviews Written"]
+
+    for member in staff:
+        table.add_row(
+            [member.id, member.title, f"{member.firstname} {member.lastname}", member.username, member.reviews_written]
+        )
+    print(table)

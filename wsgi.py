@@ -1,11 +1,18 @@
-import click
+# import click
 from flask.cli import AppGroup
-from prettytable import PrettyTable
 from App.database import get_migrate
 from App.main import create_app
 from App.controllers import initialize
-from App.controllers.student import create_student, get_all_students, get_student_by_id, query_student_by_name
+from App.controllers.student import (
+    create_student,
+    create_student_table,
+    get_all_students,
+    get_student_by_id,
+    query_student_by_name,
+)
 from App.controllers.staff import get_all_staff, get_staff_by_name, get_staff_by_username
+from App.models.staff import create_staff_table
+from App.controllers.review import create_review_table
 
 app = create_app()
 migrate = get_migrate(app)
@@ -37,44 +44,24 @@ def find_student() -> None:
 
     firstname = input("Student First Name: ")
     lastname = input("Student Last Name: ")
-
     students = query_student_by_name(firstname, lastname)
-
     if not students:
         print("No students found")
         return
-
-    table = PrettyTable()
-    table.field_names = ["Student ID", "Name", "Programme", "Number of Reviews"]
-
-    for student in students:
-        table.add_row(
-            [student.student_id, f"{student.firstname} {student.lastname}", student.programme, student.num_reviews]
-        )
-
-    print(table)
+    else:
+        create_student_table(students)
 
 
 @reviewer.command("find_staff", help="lists all staff with the specified first and last name")
 def find_staff() -> None:
     firstname = input("Staff Member First Name: ")
     lastname = input("Staff Member Last Name: ")
-
     staff = get_staff_by_name(firstname, lastname)
-
     if not staff:
         print("No staff found")
         return
-
-    table = PrettyTable()
-    table.field_names = ["ID", "Title", "Name", "Username", "Reviews Written"]
-
-    for member in staff:
-        table.add_row(
-            [member.id, member.title, f"{member.firstname} {member.lastname}", member.username, member.reviews_written]
-        )
-
-    print(table)
+    else:
+        create_staff_table(staff)
 
 
 @reviewer.command("list_students", help="lists all students in the database")
@@ -83,17 +70,8 @@ def list_students():
     if not students:
         print("Currently No Students in the Database")
         return
-
-    # Create a PrettyTable instance
-    table = PrettyTable()
-    table.field_names = ["Student ID", "Name", "Programme", "Number of Reviews"]
-
-    for student in students:
-        table.add_row(
-            [student.student_id, f"{student.firstname} {student.lastname}", student.programme, student.num_reviews]
-        )
-
-    print(table)
+    else:
+        create_student_table(students)
 
 
 @reviewer.command("list_staff", help="lists all staff in the database")
@@ -102,17 +80,8 @@ def list_staff():
     if not staff:
         print("Currently No staff in the Database")
         return
-
-    # Create a PrettyTable instance
-    table = PrettyTable()
-    table.field_names = ["ID", "Title", "Name", "Username", "Reviews Written"]
-
-    for member in staff:
-        table.add_row(
-            [member.id, member.title, f"{member.firstname} {member.lastname}", member.username, member.reviews_written]
-        )
-
-    print(table)
+    else:
+        create_staff_table(staff)
 
 
 @reviewer.command("review_student", help="creates a review of a student")
@@ -120,13 +89,16 @@ def write_review() -> None:
     student_id = int(input("Enter the ID of the student you would like to review: "))
     score = int(input("Enter their score out of 10: "))
     comment = input("Make a comment about the student: ")
+
     if score > 10:
         print("Score should be a value from 0 to 10")
         return
+
     student = get_student_by_id(student_id)
     if student is None:
         print(f"Student could not be found")
         return
+
     username = input("Enter your staff username: ")
     staff = get_staff_by_username(username)
     if staff:
@@ -146,13 +118,13 @@ def get_student_reviews() -> None:
     if student is None:
         print(f"{student_id} is not a valid student ID")
         return
-    review = student.reviews
-    if not review:
+
+    reviews = student.reviews
+    if not reviews:
         print(f"Student of ID:{student.student_id} currently has no reviews")
         return
-    print(f"===================Reviews for {student.firstname}===================")
-    for review in review:
-        print(review)
+
+    create_review_table(reviews)
 
 
 @reviewer.command("get_staff_reviews", help="lists the reviews written by a staff member by username")
@@ -162,13 +134,12 @@ def review() -> None:
     if staff is None:
         print(f"{username} is not a valid member of staff")
         return
-    review = staff.reviews
-    if not review:
-        print(f"Staff Member:{staff.username} has not written any reviews")
+    reviews = staff.reviews
+    if not reviews:
+        print(f"{staff.firstname} {staff.lastname} has not written any reviews")
         return
-    print(f"===================Reviews by {staff.firstname} {staff.lastname}===================")
-    for review in review:
-        print(review)
+    else:
+        create_review_table(reviews)
 
 
 app.cli.add_command(reviewer)
@@ -205,3 +176,17 @@ app.cli.add_command(reviewer)
 #             print(f"Error: {str(e)}")
 #     else:
 #         print("Invalid staff username")
+# @reviewer.command("get_student_reviews", help="lists the reviews for a student listed by ID")
+# def get_student_reviews() -> None:
+#     student_id = int(input("Enter Student ID: "))
+#     student = get_student_by_id(student_id)
+#     if student is None:
+#         print(f"{student_id} is not a valid student ID")
+#         return
+#     review = student.reviews
+#     if not review:
+#         print(f"Student of ID:{student.student_id} currently has no reviews")
+#         return
+#     print(f"===================Reviews for {student.firstname}===================")
+#     for review in review:
+#         print(review)
