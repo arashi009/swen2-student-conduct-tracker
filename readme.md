@@ -36,8 +36,8 @@ A command-line interface for staff to provide reports on students, including a s
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/student-conduct-tracker.git
-   cd student-conduct-tracker
+   git clone https://github.com/arashi009/swen2-student-conduct-tracker
+   cd swen2-student-conduct-tracker
    ```
 
 2. Install dependencies:
