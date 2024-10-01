@@ -27,6 +27,13 @@ A command-line interface for staff to provide reports on students, including a s
 - Retrieve reviews for a specific student
 - Retrieve reviews written by a specific staff member
 
+## Sample Usage
+
+https://github.com/user-attachments/assets/a1aa6e06-f3ac-43b5-a963-952bc7bcaff9
+
+
+
+
 ## Dependencies
 - Python 3.x
 - pip3
