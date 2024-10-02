@@ -1,6 +1,4 @@
 from App.database import db
-from App.models.student import Student
-
 
 class Review(db.Model):
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -16,4 +14,4 @@ class Review(db.Model):
         self.comment = comment
 
     def __repr__(self) -> str:
-        return f"{self.student_id} {self.rating} {self.comment} {self.staff_id}"
+        return f"{self.student_id} {self.rating} {self.comment} {self.staff_id} {"Negative" if self.rating < 5 else "Positive"}"

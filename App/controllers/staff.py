@@ -3,31 +3,39 @@ from App.database import db
 from sqlalchemy.exc import SQLAlchemyError
 
 
-def create_staff(firstname, lastname, title, password):
+def create_staff(id, first_name, last_name, password) -> Staff | None:
     try:
-        staff = Staff(firstname, lastname, title, password)
+        staff = Staff(id, password, first_name, last_name)
         db.session.add(staff)
+        db.session.commit()
+        return Staff
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print(f"{e}")
+        return None
+
+
+def get_staff_by_id(id: str) -> Staff | None:
+    return Staff.query.filter_by(id=id).first()
+
+
+def delete_staff_by_id(id: str) -> Staff | None:
+    staff = Staff.query.filter_by(id=id).first()
+    try:
+        db.session.delete(staff)
         db.session.commit()
     except SQLAlchemyError as e:
         db.session.rollback()
-        print(f"Error adding staff member {firstname} {lastname}: {e}")
+        print(f"Could not delete staff {id} from the system; {e}")
 
 
-def get_staff_by_id(staff_id: int):
-    return Staff.query.filter_by(id=staff_id).first()
-
-
-def get_staff_by_name(firstname, lastname):
-    return Staff.query.filter_by(firstname=firstname, lastname=lastname).all()
-
-
-def get_staff_by_title(title):
-    return Staff.query.filter_by(title=title).all()
-
-
-def get_staff_by_username(username):
-    return Staff.query.filter_by(username=username).first()
+def get_staff_by_name(first_name, last_name):
+    return Staff.query.filter_by(first_name=first_name, last_name=last_name).all()
 
 
 def get_all_staff():
     return Staff.query.all()
+
+
+# def get_staff_by_username(username):
+#     return Staff.query.filter_by(username=username).first()

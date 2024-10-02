@@ -7,13 +7,15 @@ from App.controllers.student import (
     create_student,
     get_all_students,
     get_student_by_id,
-    query_student_by_name,
+    get_students_by_name,
 )
 from App.controllers.staff import (
     get_all_staff,
+    get_staff_by_id,
     get_staff_by_name,
-    get_staff_by_username,
 )
+from models.staff import Staff
+from models.student import Student
 
 # from App.controllers.review import create_review_table
 
@@ -50,7 +52,7 @@ def find_student() -> None:
 
     first_name = input("Student First Name: ")
     last_name = input("Student Last Name: ")
-    students = query_student_by_name(first_name, last_name)
+    students = get_students_by_name(first_name, last_name)
     if not students:
         print("No students found")
         return
@@ -86,24 +88,24 @@ def list_staff():
 
 @reviewer.command("review_student", help="creates a review of a student")
 def write_review() -> None:
-    id = int(input("Enter the ID of the student you would like to review: "))
-    score = int(input("Enter their score out of 10: "))
-    comment = input("Make a comment about the student: ")
+    id: str = input("Enter the ID of the student you would like to review: ")
+    score: int = int(input("Enter their score out of 10: "))
+    comment: str = input("Make a comment about the student: ")
 
     if score > 10:
         print("Score should be a value from 0 to 10")
         return
 
-    student = get_student_by_id(id)
+    student: Student | None = get_student_by_id(id)
     if student is None:
         print(f"Student could not be found")
         return
 
-    username = input("Enter your staff username: ")
-    staff = get_staff_by_username(username)
+    id: str = input("Enter your staff id: ")
+    staff: Staff | None = get_staff_by_id(id)
     if staff:
         try:
-            staff.review_student(score, comment, int(id))
+            staff.review_student(score, comment, id)
             print("Review added successfully")
         except ValueError as e:
             print(f"Error: {str(e)}")
@@ -115,12 +117,11 @@ def write_review() -> None:
     "get_student_reviews", help="lists the reviews for a student listed by ID"
 )
 def get_student_reviews() -> None:
-    id = int(input("Enter Student ID: "))
-    student = get_student_by_id(id)
+    id: str = input("Enter Student ID: ")
+    student: Student | None = get_student_by_id(id)
     if student is None:
         print(f"{id} is not a valid student ID")
         return
-
     reviews = student.reviews
     if not reviews:
         print(f"Student of ID:{student.id} currently has no reviews")
@@ -131,10 +132,10 @@ def get_student_reviews() -> None:
     "get_staff_reviews", help="lists the reviews written by a staff member by username"
 )
 def review() -> None:
-    username = input("Enter Staff Username: ")
-    staff = get_staff_by_username(username)
+    id: str = input("Enter Staff ID: ")
+    staff: Staff | None = get_staff_by_id(id)
     if staff is None:
-        print(f"{username} is not a valid member of staff")
+        print(f"{id} is not a valid member of staff")
         return
     reviews = staff.reviews
     if not reviews:
