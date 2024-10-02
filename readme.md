@@ -8,3 +8,7 @@ A command-line interface for staff to provide reports on students, including a s
 
 ## Todo
 - [] Update python version
+- [] add error handling
+- [] quickly reimplement wsgi for funs
+- [] reimplement auth controllers
+- [] check model contraints
