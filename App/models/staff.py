@@ -4,7 +4,7 @@ from App.models.user import User
 
 
 class Staff(User):
-    id: str = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    id: str = db.Column(db.String(9), db.ForeignKey("user.id"), primary_key=True)
     first_name: str = db.Column(db.String(50), nullable=False)
     last_name: str = db.Column(db.String(50), nullable=False)
     title: str = db.Column(db.String(50), nullable=False)
