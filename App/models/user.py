@@ -4,7 +4,7 @@ from App.database import db
 
 
 class User(db.Model):
-    id: str = db.Column(db.String(10), primary_key=True)
+    id: str = db.Column(db.String(9), primary_key=True)
     password: str = db.Column(db.String(120), nullable=False)
 
     def __init__(self, id: str, password: str) -> None:

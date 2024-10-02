@@ -4,8 +4,8 @@ from App.models.student import Student
 
 class Review(db.Model):
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    staff_id: str = db.Column(db.String(9), db.ForeignKey("staff.id"))
-    student_id: str = db.Column(db.String(9), db.ForeignKey("student.id"))
+    staff_id: str = db.Column(db.ForeignKey("staff.id"), db.String(9))
+    student_id: str = db.Column(db.ForeignKey("student.id"), db.String(9))
     rating: int = db.Column(db.Integer, nullable=False)
     comment: str = db.Column(db.String(200), nullable=False)
 
