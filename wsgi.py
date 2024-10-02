@@ -9,8 +9,13 @@ from App.controllers.student import (
     get_student_by_id,
     query_student_by_name,
 )
-from App.controllers.staff import get_all_staff, get_staff_by_name, get_staff_by_username
-from App.controllers.review import create_review_table
+from App.controllers.staff import (
+    get_all_staff,
+    get_staff_by_name,
+    get_staff_by_username,
+)
+
+# from App.controllers.review import create_review_table
 
 app = create_app()
 migrate = get_migrate(app)
@@ -25,7 +30,9 @@ def init():
 """
 Reviewer Commands
 """
-reviewer = AppGroup("reviewer", help="reviewer commands for viewing students and reading/writing review")
+reviewer = AppGroup(
+    "reviewer", help="reviewer commands for viewing students and reading/writing review"
+)
 
 
 @reviewer.command("add_student", help="adds a new student to the database")
@@ -33,11 +40,13 @@ def add() -> None:
     first_name = input("Student First Name: ")
     last_name = input("Student Last Name: ")
     programme = input("Student Programme: ")
-    create_student(first_name, last_name, programme)
+    # create_student(first_name, last_name, programme)
     print(f"Student {first_name} was added!")
 
 
-@reviewer.command("find_students", help="lists all students with the specified first and last name")
+@reviewer.command(
+    "find_students", help="lists all students with the specified first and last name"
+)
 def find_student() -> None:
 
     first_name = input("Student First Name: ")
@@ -50,7 +59,9 @@ def find_student() -> None:
     # create_student_table(students)
 
 
-@reviewer.command("find_staff", help="lists all staff with the specified first and last name")
+@reviewer.command(
+    "find_staff", help="lists all staff with the specified first and last name"
+)
 def find_staff() -> None:
     first_name = input("Staff Member First Name: ")
     last_name = input("Staff Member Last Name: ")
@@ -109,7 +120,9 @@ def write_review() -> None:
         print("Invalid staff username")
 
 
-@reviewer.command("get_student_reviews", help="lists the reviews for a student listed by ID")
+@reviewer.command(
+    "get_student_reviews", help="lists the reviews for a student listed by ID"
+)
 def get_student_reviews() -> None:
     student_id = int(input("Enter Student ID: "))
     student = get_student_by_id(student_id)
@@ -122,10 +135,12 @@ def get_student_reviews() -> None:
         print(f"Student of ID:{student.student_id} currently has no reviews")
         return
 
-    create_review_table(reviews)
+    # create_review_table(reviews)
 
 
-@reviewer.command("get_staff_reviews", help="lists the reviews written by a staff member by username")
+@reviewer.command(
+    "get_staff_reviews", help="lists the reviews written by a staff member by username"
+)
 def review() -> None:
     username = input("Enter Staff Username: ")
     staff = get_staff_by_username(username)
@@ -136,8 +151,8 @@ def review() -> None:
     if not reviews:
         print(f"{staff.first_name} {staff.last_name} has not written any reviews")
         return
-    else:
-        create_review_table(reviews)
+    # else:
+    # create_review_table(reviews)
 
 
 app.cli.add_command(reviewer)
