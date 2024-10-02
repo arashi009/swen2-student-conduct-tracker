@@ -1,8 +1,4 @@
-firstname,lastname,title,password
-Ichigo,Kurosaki,Dr.,awesometeacher
-Ai,Hoshino,Mr.,awesometeacher
-Rukia,Kuchiki,Dr.,awesometeacher
-Aqua,Hoshino,Mr.,awesometeacher
-Yoruichi,Shihouin,Mr.,awesometeacher
-Toshiro,Hitsugaya,Dr.,awesometeacher
-Ruby,Hoshino,Dr.,bobpass
+staff_id,username,password,firstname,lastname
+00000611,alice,password,Alice,Brown
+00000612,bob,password,Bob,Ross
+00000613,rob,password,Rob,Miller

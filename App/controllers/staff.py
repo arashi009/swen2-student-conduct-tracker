@@ -3,39 +3,21 @@ from App.database import db
 from sqlalchemy.exc import SQLAlchemyError
 
 
-def create_staff(id, first_name, last_name, password) -> Staff | None:
+def create_staff(id: str, password: str, firstname: str, lastname: str) -> bool:
     try:
-        staff = Staff(id, password, first_name, last_name)
+        staff = Staff(id, password, firstname, lastname)
         db.session.add(staff)
         db.session.commit()
-        return Staff
+        return True
     except SQLAlchemyError as e:
         db.session.rollback()
-        print(f"{e}")
-        return None
+        print(f"Error creating staff: {e}")
+        return False
 
 
-def get_staff_by_id(id: str) -> Staff | None:
-    return Staff.query.filter_by(id=id).first()
+def get_staff(id: str) -> Staff | None:
+    return Staff.query.get(id)
 
 
-def delete_staff_by_id(id: str) -> Staff | None:
-    staff = Staff.query.filter_by(id=id).first()
-    try:
-        db.session.delete(staff)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        print(f"Could not delete staff {id} from the system; {e}")
-
-
-def get_staff_by_name(first_name, last_name):
-    return Staff.query.filter_by(first_name=first_name, last_name=last_name).all()
-
-
-def get_all_staff():
+def get_all_staff() -> list[Staff]:
     return Staff.query.all()
-
-
-# def get_staff_by_username(username):
-#     return Staff.query.filter_by(username=username).first()

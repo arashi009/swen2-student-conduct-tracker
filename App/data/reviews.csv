@@ -1,26 +1,24 @@
-student_id,score,comment,staff_id
-1,8,"Earnest",2
-2,7,"Well mannered",3
-3,10,"Goated",4
-4,6,"Goated",5
-5,12,"Attends classes irregularly",6
-6,12,"Attends classes irregularly",7
-7,12,"Attends classes irregularly",8
-8,9,"Participates actively in discussions",2
-9,10,"Shows leadership potential",3
-10,7,"Improved performance this semester",4
-11,6,"Could focus more during lectures",5
-12,5,"Needs to submit assignments on time",6
-13,9,"Great improvement in practicals",7
-14,10,"Excellent presentation skills",8
-15,6,"Average, but shows promise",2
-16,8,"Good collaboration in group projects",3
-17,9,"Positive attitude towards learning",4
-18,10,"Outstanding work ethic",5
-19,7,"Struggles with time management",6
-20,6,"Needs to engage more in class",7
-21,5,"Inconsistent attendance",8
-22,9,"Always well-prepared for class",2
-23,8,"Shows creativity in problem-solving",3
-24,7,"Good participation in labs",4
-24,3,"This man cyah code bhaii wayys",2
+student_id,staff_id,rating,comment
+81600000,00000611,5,"Excellent work and consistent effort throughout the semester. Always prepared and engaged."
+81600000,00000612,2,"Needs significant improvement in communication skills and teamwork."
+81600001,00000611,4,"Shows dedication and improvement, though there's room for growth in time management."
+81600001,00000612,3,"Solid performance but can improve focus and attention to detail."
+81600002,00000611,5,"Demonstrates excellent problem-solving abilities and a proactive attitude."
+81600002,00000613,3,"Performance is average, and there's potential to perform at a higher level with more effort."
+81600003,00000611,4,"Displays a solid understanding of the material but could participate more in discussions."
+81600003,00000612,1,"Struggles with staying on task and completing assignments on time."
+81600001,00000612,4,"Good work overall, but sometimes struggles with meeting deadlines. However, improved towards the end."
+81600002,00000613,3,"Average performance. Needs to participate more in discussions and seek clarification when confused."
+81600003,00000613,5,"Outstanding contributions and always eager to assist others. Demonstrates leadership qualities."
+81600000,00000612,4,"Shows great promise. Active participation in class but needs to polish written assignments."
+81600002,00000611,5,"An exceptional student. Always prepared, proactive, and ready to contribute in group projects."
+81600004,00000613,5,"Outstanding performance and engagement in all activities. A true team player."
+81600004,00000612,4,"Shows great potential but should work on time management."
+81600005,00000611,3,"Good understanding of the material, but needs to improve participation."
+81600005,00000612,4,"Solid performance with consistent improvement. Could benefit from additional focus."
+81600006,00000611,5,"Excellent contributions in class discussions. Always willing to help peers."
+81600006,00000613,2,"Needs improvement in assignment submissions and communication."
+81600007,00000611,4,"Displays a good grasp of concepts but should engage more with classmates."
+81600008,00000612,3,"Average performance; showing some improvement but needs more effort."
+81600009,00000611,5,"Exceptional ability to grasp complex topics and articulate thoughts clearly."
+81600009,00000613,3,"Good performance, but needs to ask for help when confused."

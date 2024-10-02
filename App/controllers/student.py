@@ -1,52 +1,27 @@
 from App.database import db
-from App.models.student import Student
+from App.models import Student
 from sqlalchemy.exc import SQLAlchemyError
 
 
-def create_student(id, first_name, last_name, programme) -> Student | None:
+def create_student(id: str, first_name: str, last_name: str, programme: str) -> bool:
     try:
         student = Student(id, first_name, last_name, programme)
         db.session.add(student)
         db.session.commit()
-        return student
+        return True
     except SQLAlchemyError as e:
         db.session.rollback()
-        print(e)
-        return None
+        print(f"Error creating student: {e}")
+        return False
 
 
-def get_student_by_full_name(first_name: str, last_name: str) -> Student | None:
-    student: Student = Student.query.filter_by(first_name=first_name, last_name=last_name).first()
-    return student
+def get_all_students() -> list[Student]:
+    return Student.query.all()
 
 
-def get_student_by_id(id: str) -> Student | None:
-    existing_student = Student.query.filter_by(id=id).first()
-    return existing_student
+def get_student(id: str) -> Student | None:
+    return Student.query.get(id)
 
 
-def get_students_by_name(first_name: str, last_name: str):
-    students = Student.query.filter_by(first_name=first_name, last_name=last_name).all()
-    return students
-
-
-def get_all_students():
-    students = Student.query.all()
-    return students
-
-
-def delete_student(id: str) -> bool:
-    try:
-        student = get_student_by_id(id)
-        if student:
-            db.session.delete(student)
-            db.session.commit()
-            return True
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        print(e)
-    return False
-
-
-def get_students_by_programme(programme: str):
-    return Student.query.filter_by(programme=programme).all()
+def get_students_by_name(first_name: str, last_name: str) -> list[Student]:
+    return Student.query.filter_by(first_name=first_name, last_name=last_name).all()
