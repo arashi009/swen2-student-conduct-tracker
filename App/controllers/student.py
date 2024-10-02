@@ -34,15 +34,15 @@ def get_all_students():
     return students
 
 
-def create_student_table(students):
-    table = PrettyTable()
-    table.field_names = [
-        "Student ID",
-        "Name",
-        "Programme",
-    ]
+# def create_student_table(students):
+#     table = PrettyTable()
+#     table.field_names = [
+#         "Student ID",
+#         "Name",
+#         "Programme",
+#     ]
 
-    for student in students:
-        table.add_row([student.id, f"{student.first_name} {student.last_name}", student.programme])
+#     for student in students:
+#         table.add_row([student.id, f"{student.first_name} {student.last_name}", student.programme])
 
-    print(table)
+#     print(table)

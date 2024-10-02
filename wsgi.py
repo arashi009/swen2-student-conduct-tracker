@@ -5,13 +5,11 @@ from App.main import create_app
 from App.controllers import initialize
 from App.controllers.student import (
     create_student,
-    create_student_table,
     get_all_students,
     get_student_by_id,
     query_student_by_name,
 )
 from App.controllers.staff import get_all_staff, get_staff_by_name, get_staff_by_username
-from App.models.staff import create_staff_table
 from App.controllers.review import create_review_table
 
 app = create_app()
@@ -32,36 +30,36 @@ reviewer = AppGroup("reviewer", help="reviewer commands for viewing students and
 
 @reviewer.command("add_student", help="adds a new student to the database")
 def add() -> None:
-    firstname = input("Student First Name: ")
-    lastname = input("Student Last Name: ")
+    first_name = input("Student First Name: ")
+    last_name = input("Student Last Name: ")
     programme = input("Student Programme: ")
-    create_student(firstname, lastname, programme)
-    print(f"Student {firstname} was added!")
+    create_student(first_name, last_name, programme)
+    print(f"Student {first_name} was added!")
 
 
 @reviewer.command("find_students", help="lists all students with the specified first and last name")
 def find_student() -> None:
 
-    firstname = input("Student First Name: ")
-    lastname = input("Student Last Name: ")
-    students = query_student_by_name(firstname, lastname)
+    first_name = input("Student First Name: ")
+    last_name = input("Student Last Name: ")
+    students = query_student_by_name(first_name, last_name)
     if not students:
         print("No students found")
         return
-    else:
-        create_student_table(students)
+    # else:
+    # create_student_table(students)
 
 
 @reviewer.command("find_staff", help="lists all staff with the specified first and last name")
 def find_staff() -> None:
-    firstname = input("Staff Member First Name: ")
-    lastname = input("Staff Member Last Name: ")
-    staff = get_staff_by_name(firstname, lastname)
+    first_name = input("Staff Member First Name: ")
+    last_name = input("Staff Member Last Name: ")
+    staff = get_staff_by_name(first_name, last_name)
     if not staff:
         print("No staff found")
         return
-    else:
-        create_staff_table(staff)
+    # else:
+    # create_staff_table(staff)
 
 
 @reviewer.command("list_students", help="lists all students in the database")
@@ -70,8 +68,8 @@ def list_students():
     if not students:
         print("Currently No Students in the Database")
         return
-    else:
-        create_student_table(students)
+    # else:
+    #     create_student_table(students)
 
 
 @reviewer.command("list_staff", help="lists all staff in the database")
@@ -80,8 +78,8 @@ def list_staff():
     if not staff:
         print("Currently No staff in the Database")
         return
-    else:
-        create_staff_table(staff)
+    # else:
+    # create_staff_table(staff)
 
 
 @reviewer.command("review_student", help="creates a review of a student")
@@ -136,7 +134,7 @@ def review() -> None:
         return
     reviews = staff.reviews
     if not reviews:
-        print(f"{staff.firstname} {staff.lastname} has not written any reviews")
+        print(f"{staff.first_name} {staff.last_name} has not written any reviews")
         return
     else:
         create_review_table(reviews)
@@ -146,12 +144,12 @@ app.cli.add_command(reviewer)
 
 
 # @reviewer.command("add_student", help="adds a new student to the database")
-# @click.argument("firstname", type=str)
-# @click.argument("lastname", type=str)
+# @click.argument("first_name", type=str)
+# @click.argument("last_name", type=str)
 # @click.argument("programme", type=str)
-# def add(firstname: str, lastname: str, programme: str) -> None:
-#     create_student(firstname, lastname, programme)
-#     print(f"Student {firstname} was added!")
+# def add(first_name: str, last_name: str, programme: str) -> None:
+#     create_student(first_name, last_name, programme)
+#     print(f"Student {first_name} was added!")
 
 # @reviewer.command("review_student", help="creates a review of a student")
 # @click.argument("student_id")
@@ -187,6 +185,6 @@ app.cli.add_command(reviewer)
 #     if not review:
 #         print(f"Student of ID:{student.student_id} currently has no reviews")
 #         return
-#     print(f"===================Reviews for {student.firstname}===================")
+#     print(f"===================Reviews for {student.first_name}===================")
 #     for review in review:
 #         print(review)
