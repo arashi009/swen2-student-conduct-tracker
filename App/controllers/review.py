@@ -24,3 +24,9 @@ def create_review_table(reviews):
         student_name = f"{review.student.firstname} {review.student.lastname}"
         table.add_row([review.reviewID, student_name, review.score, review.comment, experience, staff_name])
     print(table)
+
+def review_student(self, score: int, comment: str, student_id: int) -> None:
+    review = Review(student_id, score, comment, self)
+    self.reviews_written += 1
+    db.session.add(review)
+    db.session.commit()
